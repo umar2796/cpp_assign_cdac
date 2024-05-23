@@ -1,0 +1,238 @@
+ The `virtual` keyword in C++ is primarily used to achieve runtime polymorphism through function overriding. When a member function is declared `virtual` in the base class, it enables derived classes to provide their own implementation of the function through overriding. This enables the appropriate derived class member function to be called at runtime based on the actual type of the object. The concepts of `virtual` and function overriding are closely related, as the `virtual` keyword allows overriding of functions to achieve polymorphic behavior, which is a central idea in object-oriented programming ([citation:9]). When a function in the base class is declared as `virtual`, it can be overridden in derived classes and the mechanism of polymorphism ensures the appropriate implementation is called based on the actual object type being referenced. In addition, remember that it is not advisable to call virtual functions from constructors or destructors due to complications with object creation and destruction phases ([citation:10]).
+  
+
+Why and when to use inheritance?
+Consider a group of vehicles. You need to create classes for Bus, Car, and Truck. The methods fuelAmount(), capacity(), applyBrakes() will be the same for all three classes. If we create these classes avoiding inheritance then we have to write all of these functions in each of the three classes as shown below figure: 
+
+inheritance in C++
+
+You can clearly see that the above process results in duplication of the same code 3 times. This increases the chances of error and data redundancy. To avoid this type of situation, inheritance is used. If we create a class Vehicle and write these three functions in it and inherit the rest of the classes from the vehicle class, then we can simply avoid the duplication of data and increase re-usability. Look at the below diagram in which the three classes are inherited from vehicle class:
+ 
+
+inheritance application in C++
+
+Using inheritance, we have to write the functions only one time instead of three times as we have inherited the rest of the three classes from the base class (Vehicle).
+
+=-=-=-=-=-=-=-=-=-=-=--=-==--=-=-=-=--==--=-=--=-
+1)
+class base
+{
+	public:
+		base(char *ptr)
+		{
+		}
+};
+class sub:public base
+{
+};
+
+Following statements should be possible
+
+sub s;
+
+sub *s1=new sub(40);
+
+sub *s2=new sub('a',4.5);
+--------------------------------------------------------------------------
+
+#include<iostream>
+using namespace std;
+class parent
+{
+public:
+
+
+	void disp1() {
+		cout << "disp1()"<<endl;
+	}
+	void disp2() {
+
+	}
+	void disp3() {
+		cout << "disp3()"<<endl;
+	}
+	void disp4() {
+
+	}
+};
+class sub :private parent
+{
+	
+public:
+
+	sub(int k) {
+		
+		cout << "sub const"<<endl;
+	}
+	parent::disp1;
+	parent::disp3;
+	void disp5() {
+		cout<<"disp5()"<<endl;
+	}
+};
+
+//make sure u can do the following
+
+int main()
+{
+
+	sub s(30);
+	s.disp5();
+	s.disp3();
+	s.disp1();
+
+
+}
+
+----------------------------------------------------------------------------
+3) create a class Person with "void walk()" method and "walks normally" statement inside it. Now derive a class "Athelite" from Person and redefine "void walk()" with a statement "walks faster". In the main function create an instance of "Athelite" and invoke "walk()" method. Observe what happens.
+
+
+
+
+#include<iostream>
+using namespace std;
+
+class Person {
+public:
+	void walk() {
+		cout << "walks normally" << endl;
+	}
+	
+
+};
+
+class Athelite : public Person
+{
+public:
+	void walk() {
+		cout << "walks faster" << endl;
+	}
+};
+
+//make sure u can do the following
+
+int main()
+{
+	Athelite a1;
+
+	a1.walk(5);
+	
+
+
+}
+
+/*here when we redefine the base class method in child class this method ll 
+hide parent class ka method therefore when you call walk() using child class ka object then child class ka method ll execute if you dont define it in child class then parent class ka method ll exeute.*/
+
+----------------------------------------------------------------------------
+4)Define three classes A, B, C carrying one integer member in each of them. Let C be derived from A and B. Write constructors and destructors in each of these classes that prompt some message from each class. Also the constructor of C should accept three values, one for its own member and other two for A and B. The C constructor should see that the two values goes to respective constructors of A and B. What is the order in which constructors and destructors get called upon? How can you change this order?
+
+
+
+#include<iostream>
+using namespace std;
+
+class A {
+	
+public: int a;
+	A(int a) {
+		cout << "i am A " <<a<< endl;
+		this->a = a;
+	}
+};
+class B {
+	
+public: int b;
+	B(int b)
+	{
+		this->b = b;
+		cout << "i am B" <<b<< endl;
+	}
+};
+class C: public A,public B {
+public: int c;
+ C(int a,int b,int c):A(b),B(b)
+	{
+	this->c = c;
+		cout << "i am C" <<c<< endl;
+	}
+};
+
+int main () {
+	C ref(10,20,30);
+	cout << ref.c<<endl<<ref.b<<endl<<ref.a;
+
+}
+
+
+-------------------------------------------------------------------------------
+5) create a class Base with "int ref1" ,parameterized constructor and destructor. Derive class Sub1 from Base with "int ref2" ,parameterized constructor and destructor. Now derive class Sub2 from Sub1 with "int num3" ,parameterized constructor and destructor.
+in the main function create the object of Sub1 and notice constructor and destructor invocation.
+
+
+
+#include<iostream>
+using namespace std;
+
+;
+class Base {
+	
+public: int ref1;
+	Base(int ref1)
+	{
+		this->ref1 = ref1;
+		cout << "i am Base" <<ref1<< endl;
+	}
+	~Base() {
+		cout << "dest base" << endl;
+	}
+};
+class sub1: public Base {
+public: int ref2;
+ sub1(int ref2):Base(10)
+	{
+	this->ref2 = ref2;
+		cout << "i am sub1" <<ref2<< endl;
+	}
+ ~sub1() {
+	 cout << "dest sub1" << endl;
+ }
+};
+
+class sub2 : public sub1 {
+public: int ref3;
+	  sub2(int ref3) :sub1(10)
+	  {
+		  this->ref3 = ref3;
+		  cout << "i am sub1" << ref3 << endl;
+	  }
+	  ~sub2() {
+		  cout << "dest sub2" << endl;
+	  }
+};
+
+int main () {
+	sub1 obj(10);
+	//cout << <<endl<<ref.b<<ref.a;
+
+}
+
+
+---------------------------------------------------------------------------
+
+
+6) create a Base1 and Base2 classes in the library.
+constructors, member variables and functions you can have in the above classes of your choice.
+
+now create a client application where you have to create a child class by the name "Sub" of above classes.
+in the main function create an instance of child class and try to access methods of Base1 and Base2.
+
+
+
+
+
+
+
+
+

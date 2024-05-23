@@ -1,0 +1,278 @@
+1) Write a class (not a class template) and inside it create a function template as a member function. Invoke it from main function.
+
+
+
+#include<iostream>
+using namespace std;
+class Myclass {
+private:
+	public:
+
+	template<class umar>
+	void disp(umar ref) {  
+		cout<<ref;
+	}
+
+
+
+};
+
+int main()
+{
+	Myclass s1;
+	cout<<"your name is "<<s1.disp(23); 
+}
+-----------------------------------------------------------------------
+EXTRA
+------
+#include<iostream>
+using namespace std;
+
+
+template<class T>
+class Myclass {
+private:
+	  T var;
+public:
+	Myclass<T>() {
+
+	}
+
+	template<class umar>
+	umar disp(umar ref) {
+		var = ref;
+		return var;
+	}
+
+	
+
+};
+
+int main()
+{
+	Myclass<float> s1;
+	cout<<"your value is "<<s1.disp(8.2345f);
+}
+
+---------------------------------------------------------------------------
+2)write a class template , which can take any generic type display it and return the size of type passed.
+(hint : in this class template write two functions void disp() and int size() ).
+
+
+#include<iostream>
+using namespace std;
+
+
+template<class T>
+class Myclass {
+private:
+	  T var;
+public:
+	Myclass(T k) {
+		var = k;
+	}
+
+	
+	void disp() {
+	cout << "value is : " << var<<endl;
+	}
+
+	void func() {
+		cout <<"type size is :"<<sizeof(T);
+	}
+	
+
+};
+
+int main()
+{
+	Myclass<char> s1('A');
+	
+	s1.disp();
+	s1.func();
+}
+
+---------------------------------------------------------------------------
+3) Write a class template, which can take 3 different type of arguments and print them.
+a class must have only one constructor and that is a constructor which will take 3 arguments.
+class must have disp function which will display the data.
+
+
+
+#include<iostream>
+using namespace std;
+
+
+template<class I,class C,class D>
+class Myclass {
+private:
+	 I varI;
+	 C varC;
+	 D varD;
+
+public:
+	Myclass(I ref1, C ref2, D ref3) {
+		varI = ref2;
+		varC = ref2;
+		varD = ref3;
+	}
+		void func() {
+			cout << "values are :" <<endl<<varI<<endl<<varC<<endl<<varD;
+		}
+
+	
+	
+
+};
+
+int main()
+{
+	Myclass<int,char,double> s1(20,'B',2.2);
+	s1.func();
+
+	
+
+}
+
+---------------------------------------------------------------------------
+4) Write a class template, which can take 3 different type of arguments. Do not define any constructor for this class template.
+class must have 3 setter methods and 3 getter methods.
+
+
+#include<iostream>
+using namespace std;
+template<class I,class C,class D>
+class Myclass {
+private:
+	 I varI;
+	 C varC;
+	 D varD;
+
+public:
+	
+	
+	void setI(I ref) {
+		varI = ref;
+		
+	}
+
+	void getI() {
+		cout << "value is : " << varI << endl;
+	}
+	
+	void setC(C ref) {
+		varC = ref;
+
+	}
+
+	void getC() {
+		cout << "value is : " << varC << endl;
+	}
+
+	void setD(D ref) {
+		varD = ref;
+
+	}
+
+	void getD() {
+		cout << "value is : " << varD << endl;
+	}
+
+
+};
+
+int main()
+{
+	Myclass<int,char,double> s1;
+	s1.setI(65);
+	s1.setC('A');
+	s1.setD(6.5);
+
+	s1.getI();
+	s1.getC();
+	s1.getD();
+
+
+}
+
+------------------------------------------------------------------------------
+
+5) define a class "Emp" with "private : int data=100"  
+write a function template,which can accept anything as an argument and display it.
+It can also accept "Emp" class object as an argument and display it 
+( Hint:- insertion operator overloading )
+
+
+#include<iostream>
+using namespace std;
+class Emp {
+private:
+
+	int data = 100;
+
+
+public:
+	template<class type>
+	void func(type ref) {
+		cout<<ref<<endl;     // operator<<(cout,ref)
+		
+	}
+	friend ostream& operator<<(ostream&, Emp&);
+};
+
+
+
+ostream& operator<<(ostream& O, Emp& ref1) {
+	O << ref1.data;
+	return O;
+}
+
+int main()
+{
+	Emp obj;
+
+	obj.func(5);
+	obj.func(obj);			
+	obj.func('A');
+	obj.func(true);
+
+}
+
+----------------------------------------------------------------------------
+
+6) define a function template which can take any type of pointer as an argument and by dereferencing it , display the data. Now overload this function template, for int pointer.
+Call these functions (function templates and normal function) from main by passing address of various different variables.
+
+
+
+#include<iostream>
+using namespace std;
+
+	template<class type>
+	void func(type* ref) {         //    char* ref   double* ref
+		cout <<"template function result: " << *ref << endl;
+	}
+	
+	void func(int* ref) {
+		cout <<"normal function result: " << *ref << endl;;
+	}
+
+
+int main()
+{
+
+	int k = 10;
+	char c = 'a';
+	func(&c);
+
+	func(&k);
+
+	char arr[] = { "string" };
+	func(arr);
+	
+}
+
+
+
+
+ 

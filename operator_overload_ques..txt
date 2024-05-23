@@ -1,0 +1,490 @@
+#include<iostream>			// m3 = m1 + m2;
+using namespace std;
+
+
+class MyClass
+{
+private:
+	int num;
+public:
+	MyClass() {
+
+	}
+	MyClass(int num)
+	{
+		this->num = num;
+	}
+	int getNum(){ return num; }
+
+	~MyClass() { cout << "inside destructor" << num << endl; }
+
+
+	MyClass operator+(MyClass& ref)
+	 {
+		return MyClass(num + ref.num);
+			
+	 }
+
+
+
+};
+
+
+// here
+
+int main()
+{
+	MyClass m1(100), m2(200),m3;
+	cout << m1.getNum() << endl;
+	cout << m2.getNum() << endl;
+	
+	m3 = m1 + m2;          //m1.operator+(m2)
+cout << m3.getNum() << endl;
+}
+-----------------------------------------------------------------
+#include<iostream>			//m3 += m2
+class myclass{
+.
+.
+.
+
+	void operator+=(MyClass& ref) {
+		 this->num = this->num + ref.num;
+	}
+
+};
+
+
+// here
+
+int main()
+{
+	MyClass m1(100), m2(200),m3;
+	cout << m1.getNum() << endl;
+	cout << m2.getNum() << endl;
+	
+	m3 += m2;  //m3.operator+=(m2)
+	cout << m3.getNum() << endl;
+}
+
+---------------------------------------------------------------------
+MyClass{	      				m3=m1+m2 using Friend Function
+.......
+friend MyClass operator+(MyClass &,MyClass &);
+};
+MyClass operator+(MyClass &k,MyClass &j)
+	{
+		return MyClass(k.num+j.num);
+	}
+int main()
+{
+	MyClass m1(25);
+	MyClass m2(35);
+	m1.disp();
+	m2.disp();
+	MyClass m3;
+	m3=m1+m2;
+	//m3=operator+(m1,m2);
+	m3.disp();
+-------------------------------------------------------------------------
+					m3=-m1  unary operator(1 obj)
+		
+
+MyClass{				
+.
+.
+.
+	MyClass operator-() {
+		 return (-num);
+	}
+};
+
+int main()
+{
+	MyClass m2(200),m3;
+	cout << m2.getNum() << endl;
+	m3 = -m2;					//m2.operator-()
+	cout << m3.getNum() << endl;
+}
+--------------------------------------------------------------------------
+			m3=-m1  unary operator(1 obj)with friend function
+
+		
+
+MyClass{				
+.
+.
+.
+	friend MyClass operator-(MyClass& ref);
+};
+
+
+MyClass operator-(MyClass& ref) {
+	return MyClass(-ref.num);
+}
+
+int main()
+{
+	MyClass m1(100), m2(200),m3;
+	cout << m1.getNum() << endl;
+	cout << m2.getNum() << endl;
+	
+	m3 = -m2;					//.operator-(m2)
+	cout << m3.getNum() << endl;
+}
+------------------------------------------------------------------------
+In pre increment : obj itself increment values then pass that incremented value to other object
+m2 : 200 -> 220
+m3 :  -  -> 220
+in post increment : obj passes the value to other object then increments its value
+m2 : 200 -> 220
+m3 :  -  -> 200
+
+				         [m3=++m2]	unary op (++) pre increment
+
+MyClass{				
+.
+.
+.
+	MyClass operator++() {
+		return MyClass(++num);
+	}
+	
+
+};
+
+int main()
+{
+	MyClass m2(200),m3;
+	m3 = ++m2;					//m2.operator++()
+	cout << m2.getNum() << endl;
+	cout << m3.getNum() << endl;
+
+}
+
+
+but here value of m2 itself is getting incremented then why to create anonymous object to just pass the value instead pass m2 object ?
+	     below code shows same (notice changes)
+        *****************************************************
+	MyClass{				
+.
+.
+.
+
+		MyClass& operator++() {
+		++num;
+		return *this;
+	}
+};
+
+int main()
+{
+	MyClass m2(200),m3;
+	m3 = ++m2;					//m2.operator++()
+	cout << m2.getNum() << endl;
+	cout << m3.getNum() << endl;
+}
+
+---------------------------------------------------------------------------
+
+but if you try above function using friend function then the 2nd way of passing m2 ka object itself and not anonymous object isn't possible 
+		coz there also u ll use *this and here you get error
+		this should only be used when you are inside non static 			member function
+
+here friend function can be done using anonymous object
+MyClass{				
+.
+.
+.
+	friend MyClass operator++(MyClass&);
+	};
+
+MyClass operator++(MyClass &m2) {
+	return MyClass(++m2.num);
+}
+
+int main()
+{
+	MyClass m2(200),m3;
+	m3 = ++m2;					//operator++(m2)
+	cout << m2.getNum() << endl;
+	
+					
+	cout << m3.getNum() << endl;
+}
+
+-------------------------------------------------------------------------
+					[m3=m2++]	unary op (++) post increment
+				internally 0 is passed in arg to differentiate bet both
+
+
+MyClass {
+.
+.
+.
+
+	MyClass operator++(int k) {
+		return MyClass(num++);
+
+	}
+};
+
+int main()
+{
+	MyClass m2(200), m3;
+	m3 = m2++;						//m2.operator++(0)
+	cout << m2.getNum() << endl;	
+	cout << m3.getNum() << endl;
+}
+
+-----------------------------------------------------------------------------------------
+																	Relational op [>]	m1>m2
+MyClass{				
+.
+.
+.	
+	bool operator>(MyClass& m2) {
+		return num > m2.num;
+	}
+
+};
+
+
+int main()
+{
+	MyClass m1(200),m2(100);
+	
+	cout << m1.getNum() <<"\n" << m1.getNum()<<endl;
+	
+	cout<<(m1>m2);						//m1.operator>(m2);
+	
+}
+------------------------------------------------------------------------------------
+						Relational op [>] using friend function
+
+MyClass{				
+.
+.
+.
+friend	bool operator>(MyClass& m1, MyClass& m2);
+};
+
+
+bool operator>(MyClass& m1,MyClass& m2) {
+	return m1.num > m2.num;
+}
+
+int main()
+{
+	MyClass m1(200),m2(100);
+	
+	cout << m1.getNum() <<"\n" << m1.getNum()<<endl;
+	
+	cout<<(m1>m2);						//m1.operator>(m1,m2);
+	
+}
+
+---------------------------------------------------------------------------------------
+			[m2+20]	object.num + int     -- member function
+
+MyClass{				
+.
+.
+.
+	MyClass operator+(int k) {
+		return MyClass(num+k);
+
+	}
+};
+
+int main()
+{
+	MyClass m2(200), m3;
+	m3 = m2+20;					//m2.operator+(int k)
+	cout << m2.getNum() << endl;
+	cout << m3.getNum() << endl;
+}
+
+------------------------------------------------------------------------------------------
+			[20+m2]	int + object.num   -- friend function
+because it k.operator+(m2) ll be wrong as int cannot go implicity therefore here both should go explicity through parameters therefore it ll become friend function
+
+MyClass{				
+.
+.
+.
+	friend MyClass operator+(int k, MyClass& ref);
+};
+
+
+MyClass operator+(int k, MyClass& ref) {
+	return MyClass(ref.num + k);
+
+}
+
+int main()
+{
+	MyClass m2(200), m3;
+	m3 = 20+m2;					//m2.operator++(int k)
+	cout << m2.getNum() << endl;
+	cout << m3.getNum() << endl;
+}
+
+-----------------------------------------------------------------------------------------
+					     m1[0]    	Subscript op [] 
+#include<iostream>
+using namespace std;
+class MyClass
+{
+private:
+	char* name;
+public:
+	MyClass(const char* name) {
+		this->name = new char[strlen(name) + 1];
+		strcpy_s(this->name, strlen(name) + 1, name);
+	}
+	void disp() {
+		cout << name<<endl;
+	}
+
+	char operator[](int k) {
+		if (k >= 0 && k < strlen(name)) {
+			return name[k];
+		}
+		else
+			return 0;
+	}
+};
+
+int main() {
+
+	MyClass m1("sachin");
+	cout<<m1[0]<<endl;			//m1.operator[](0)
+}
+
+--------------------------------------------------------------------------------------
+				here we are changing value at index m1[0]
+MyClass{
+.
+.
+.
+
+	char& operator[](int k) {
+		if (k >= 0 && k < strlen(name)) {
+			return name[k];
+		}
+		else
+			cout << "out of range";
+	}
+};
+
+int main() {
+	MyClass m1("sachin");
+	m1[0] = 'R';			//m1.operator[](0)
+	m1.disp();---------------------//op - Rachin
+
+}
+
+
+
+
+------------------- - - - - - - - - - - - - - - - --------------------------------
+LAST -
+when we write Myclass m2 = m1 ---------> copy const gets called ok fine
+    but 
+	if i write  MyClass m2;
+			m2 = m1;  -----> here capy const doesn't get called as for m2 you have already initialized no arg const at above line   
+					therefore here you req to define operator= which ll do same job of copy const
+
+/*following program will give error at runtime because here copy constructor is not getting called */
+/* in order to solve this problem we have to overload = operator which we will see in next program */
+
+#include<iostream>
+using namespace std;
+class MyClass
+{
+private:
+	char* name;
+	int age;
+public:
+	void disp();
+	MyClass();
+	MyClass(const char*, int);
+	~MyClass();
+	MyClass(const MyClass&);
+	void operator=(MyClass& ref);
+
+};
+MyClass::MyClass()
+{
+	name = NULL;
+	cout << "in side def constructor but outside class\n";
+}
+MyClass::MyClass(const char* str, int k)
+{
+	name = new char[strlen(str) + 1];
+	strcpy_s(name, strlen(str) + 1, str);
+	age = k;
+	cout << "in parameterized constructor\n";
+}
+MyClass::MyClass(const MyClass& m1)
+{
+	name = new char[strlen(m1.name) + 1];
+	strcpy_s(name, strlen(m1.name) + 1, m1.name);
+	age = m1.age;
+	cout << "\ninside copy constructor\n";
+}
+MyClass::~MyClass()
+{
+	delete[]name;
+	cout << "\ninside destructor\n";
+}
+void MyClass::disp()
+{
+	if (name != NULL)
+		cout << endl << name << "\t" << age << endl;
+}
+
+void MyClass::operator=(MyClass& ref)
+{
+	name = new char[strlen(ref.name) + 1];
+	strcpy_s(name, strlen(ref.name) + 1, ref.name);
+	this->age = ref.age;
+	cout<<"inside assignment operator"<<endl;
+
+}
+
+
+int main()
+{
+	MyClass m1("sachin", 25);
+	m1.disp();
+	MyClass m2;
+	m2 = m1;					//m2.operator=(m1);
+	m2.disp();
+}
+-------------------------------------------------------------------------------
+	MyClass& operator+=(MyClass& k)		//Compound op m3= m1+=m2
+	{
+		this->num = this->num + k.num;		//m1 = m1+m2
+		return *this;				//we return ref of m1
+	}
+	~MyClass()
+	{
+		cout << "inside destructor\t" << num << endl;
+	}
+};
+int main()
+{
+	MyClass m1(25);
+	MyClass m2(35);
+	m1.disp();
+	m2.disp();
+	MyClass m3;
+	m3 = m1 += m2;
+
+	m1.disp();
+	m3.disp();
+}
+
+---------------------------THE END-------------------------------------

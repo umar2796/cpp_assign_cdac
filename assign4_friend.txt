@@ -1,0 +1,131 @@
+-------------------------
+|FRIEND FUNCTION 2 QUE  |
+-------------------------
+1) class First
+   {
+      char str1[20];
+   };
+   class Second
+   {
+      char str2[20];
+   };
+write a friend function,which will create a  new string containing str1,str2 and also display it.
+
+ - - - - - - - - - - - 
+
+
+#include<iostream>
+using namespace std;
+class Second;
+class First
+{
+	
+	char str1[20];
+	int num;
+public:
+	First(int num,const char* strr) {
+		this->num = num;
+		strcpy_s(str1, strr);
+
+	}
+	friend void compare(First&, Second&);
+};
+class Second
+{
+	int num;
+	 char str2[20];
+public:
+	Second(int num,  const char* strr) {
+		this->num = num;
+		strcpy_s(str2, strr);
+
+	}
+	friend void compare(First&, Second&);
+};
+
+void compare(First &f, Second &S) {
+	
+	char final[30];
+	strcpy_s(final, f.str1);
+	strcat_s(final, S.str2);
+	cout << final;
+}
+
+
+int main() {
+	//const char *str2 = "shaikh";
+	
+	First f(10,"Umar ");
+	Second s(10, "Shaikh");
+	compare(f, s);
+}
+
+--------------------------------------------------------------------------------------------------------------
+
+
+2) 
+class First
+{
+	int a;
+};
+class Second
+{
+	public:
+		void fun1(){}
+		void fun2(){}
+		void fun3(){}
+};
+
+Above code is incomplete.
+Make sure that all the member functions of "Second" will access "a".
+
+#include<iostream>
+using namespace std;
+class Second;
+
+class First
+{
+	int a;
+public :
+
+	friend Second;
+};
+
+
+class Second
+{
+public:
+	void fun1(First&);
+	void fun2(First&);
+	void fun3(First&);
+};
+void Second::fun1(First& ref) {
+	cin >> ref.a;
+	cout << ref.a<<endl;
+}
+void Second::fun2(First& ref) {
+	cout << ref.a << endl;
+
+}
+void Second::fun3(First& ref) {
+	cout << ref.a << endl;
+}
+
+int main() {
+
+	First a;
+	Second b;
+
+	b.fun1(a);
+	b.fun2(a);
+	b.fun3(a);
+
+	
+}
+======================================================================================
+-------------------------
+|FRIEND FUNCTION 2 QUE  |
+-------------------------
+
+
+

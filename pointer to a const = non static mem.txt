@@ -1,0 +1,24 @@
+safe - const member       pointer to const
+unsafe  - non const mem   constant pointer
+
+
+
+
+
+pointer to a const = non static member
+	s		u		y
+
+pointer to a const =  static member
+	S		S		y
+
+
+
+constant pointer = non static member
+	U		U 		y
+constant pointer =  static member
+	U		S  		n
+
+constant pointer to a const = non static member
+	S			U			y
+constant pointer to a const = static member
+	S			S			y

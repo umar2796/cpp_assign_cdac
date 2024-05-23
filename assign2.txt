@@ -1,0 +1,310 @@
+
+
+
+1) using cin and cout, accept name,address,age of a person and print it.
+
+----------------
+1)
+#include<iostream>
+using namespace std;
+int main()
+{
+	char name[10];
+	cin >> name;
+	char address[20];
+	cin >> address;
+	int age;
+	cin >> age;
+	cout << name << endl << address << endl << age;
+}
+
+----------------------------------------------------------------
+2) create following structure
+struct book
+{
+	char bid[5];
+	char name[30];
+	int price;
+};
+ask user how many records he wants to create and accordingly allocate memory.
+accept values from user and display.
+( Hint :-  use  "new" operator)
+----------------------------------------------
+#include<iostream>
+using namespace std;
+struct book
+{
+	char bid[5];
+	char name[30];
+	int price;
+};
+int main()
+{
+	int rec;
+	cout << "enter no rec";
+	cin >> rec;
+	struct book *ptr = new book[rec];
+	cout << "enter each rec details";
+	for (int i = 0; i < rec; i++) {
+
+		cin >> ptr[i].bid;
+		cin >> ptr[i].name;
+		cin >> ptr[i].price;
+		cout << "\n";
+		
+		
+	}
+
+	for (int i = 0; i < rec; i++) {
+
+		cout << ptr[i].bid<<"\t";
+		cout << ptr[i].name << "\t";
+		cout << ptr[i].price<<endl;	
+	}	
+}
+
+----------------------------------------------------------------
+3)
+
+
+
+// 3) create a structure "Employee" 
+// with members 
+// 	int id
+// 	char name[20];
+// 	char desig[20];
+// now access it using
+// a) array 
+// b) DMA
+
+
+
+
+
+#include<iostream>
+using namespace std;
+
+struct Employee{
+	int id;
+	char name[20];
+	char desig[20];
+};
+
+int main(){
+    struct Employee arr[2];
+
+    //Using Array
+    for(int i=0;i<2;i++){
+        puts("Enter your id");
+        cin>>arr[i].id;
+        puts("Enter your name");
+        cin>>arr[i].name;
+        puts("Enter your desig");
+        cin>>arr[i].desig;
+    }
+
+    for(int i=0;i<2;i++){
+        cout<<"your id"<<arr[i].id<<" name "<<arr[i].name<<" desig "<<arr[i].desig<<endl;
+    }
+    return 0;
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    //Using DMA
+    int count;
+    cout<<"How many employee you want to store";
+    cin>>count;
+    struct Employee *EmpArr=new Employee[count];
+    for(int i=0;i<count;i++){
+        puts("Enter your id");
+        cin>>EmpArr[i].id;
+        puts("Enter your name");
+        cin>>EmpArr[i].name;
+        puts("Enter your desig");
+        cin>>EmpArr[i].desig;
+    }
+
+    for(int i=0;i<count;i++){
+        cout<<"your id"<<EmpArr[i].id<<" name "<<EmpArr[i].name<<" desig "<<EmpArr[i].desig<<endl;
+    }
+}
+
+-----------------------------------
+4)
+
+
+-----------------------------------
+5)
+
+5) given
+	void disp(int); function.
+
+now create a function pointer and call this function using function pointer.
+
+
+#include<iostream>
+using namespace std;
+
+void disp(int k) {
+	cout << "the end";
+}
+
+int main()
+{
+	void disp(int);
+	void (*ptr)(int) = disp;
+	(*ptr)(5);
+
+}
+
+--------------------------------------
+6)
+6) write a function to swap 2 given numbers using pointers.
+
+
+
+#include<iostream>
+using namespace std;
+
+
+int main()
+{
+
+	int a = 2;
+	int b = 5;
+	cout << a << "\t" << b<<endl;
+	int* ptrA = &a;
+	int* ptrB = &b;
+
+	int temp;
+
+	temp = *ptrA;
+	*ptrA = *ptrB;
+	*ptrB = temp;
+
+	
+	cout << a << "\t" << b;
+
+}
+
+-------------------------------------------------
+7)
+7) accept from user how many chracters he has in his name, now allocate a memory accordingly and accept his name. [use new operator]
+
+
+
+#include<iostream>
+using namespace std;
+
+
+int main()
+{
+	int count;
+	cin>>count;
+	char* name = new char[count];
+	cin >> name;
+	cout << "Your name is " << name;
+}
+
+
+------------------------------------------
+8)write a function which can accept minimum 3 characters and maximum 5 characters and display them. ( use "default arguments")
+
+
+#include<iostream>
+using namespace std;
+
+
+void acceptfunc(const char* str, int minlen = 3, int maxlen = 5) {
+
+	int length = 0;
+	while (str[length] != '\0') {
+		length++;
+	}
+	if (length > minlen && length < maxlen) {
+		cout << str;
+	}
+	else
+		cout << "your name should be greater than 3 and smaller than 5";
+}
+
+
+int main()
+{
+	//void acceptfunc(const char*);
+	
+	acceptfunc("umar");
+	return 0;
+}
+
+
+
+
+------------------------------------------------------------------
+
+9)write a function which takes 3 arguments
+variable, pointer and a reference.(any datatype)
+invoke this function and show how "call by value","call by address" and "call by reference" will work.
+
+
+void exper(int a, int* b, int& c) {
+	cout << a << *b << c;
+}
+
+int main()
+{
+	int a = 1;
+	int b = 2;
+	int c = 3;
+	exper(a, &b, c);
+}
+-------------------------------------------------------------------
+10)define 3 different structures and initialize their members.
+now write 3 different functions,but with the same name.
+these functions will accept each structure respectively and display their members.
+
+
+#include<iostream>
+using namespace std;
+
+
+struct Employee {
+	int num = 1;
+	char name[20] = "Employee";
+};
+struct student {
+	int num = 2;
+	 char name[20] = "student";
+};
+struct book {
+	int num = 3;
+	char name[20] = "book";
+};
+
+void disp(Employee e) {
+	cout << e.num<<"\t"<<e.name<<endl;
+
+}
+void disp(student s) {
+	cout << s.num << "\t" << s.name<<endl;
+
+}
+void disp(book b) {
+	cout <<b.num << "\t" << b.name;
+}
+
+int main() {
+
+	student s;
+	Employee e;
+	book b;
+
+	disp(s);
+	disp(e);
+	disp(b);
+
+
+}
+
+
+
+
+

@@ -1,0 +1,202 @@
+ 1) class Number
+   {
+       int num;
+   }
+In the main function,
+Number n1(8),n2(4),n3(20),n4(6),n5;
+n5=n1-n2
+n5=n3/n4;
+n5=n1*n3
+
+-------------------------------------------------------------
+
+
+#include<iostream>
+using namespace std;
+
+class Number {
+	int num;
+public: 
+
+	Number() {
+
+	}
+	Number(int ref) {
+		num = ref;
+
+	}
+	void getnum() {
+		cout << num<< endl;
+	}
+
+	Number operator-(Number& ref) {
+		return Number(num - ref.num);
+	}
+
+	Number operator*(Number& ref) {
+		return Number(num * ref.num);
+	}
+	
+
+	Number operator/(Number& ref) {
+		return Number(num / ref.num);
+	}
+};
+
+int main() {
+	Number n1(8), n2(4), n3(20), n4(6), n5;
+
+	n5 = n1 - n2;   //n1.operator-(n2);
+	n5.getnum();
+
+	n5 = n3 / n4;	//n3.operator/(n2)
+	n5.getnum();
+
+	n5 = n1 * n3;	// n1.operator*(n3)
+	n5.getnum();
+}
+------------------------------------------------------------
+2) class sample
+   {
+	private:
+		char ch;
+	public:
+		sample(char ch)
+		{
+			this->ch=ch;
+		}
+  };
+
+given above class.
+
+write a global function "display" which will access "ch" directly and display it.
+call this function from main function.
+
+
+
+------------------------------------------------------------------
+
+3) Given
+
+class Module1
+{
+	int duration;
+	public:
+		Module1(int k)
+		{
+			duration=k;
+		}
+};
+
+class Module2
+{
+	int duration;
+	public:
+		Module2(int k)
+		{
+			duration=k;
+		}
+};		
+	
+write a global function "check" which will take 2 modules (i.e. Module1 and Module2 ) and check whether Modules are same or not.
+call this "check" function from main function.	
+
+#include<iostream>
+using namespace std;
+class module2;
+class module1 {
+	int duration;
+public:
+	module1(int k) {
+		duration = k;
+
+	}
+
+	friend void check(module1& r1, module2& r2);
+};
+
+class module2 {
+	int duration;
+public :
+	module2(int k) {
+		duration = k;
+	}
+
+	friend void check(module1& r1, module2& r2);
+
+};
+void check(module1& r1 ,module2& r2) {
+	if (r1.duration == r2.duration) {
+		cout << "both have same value " << r1.duration;
+	}
+	else
+		cout << "both have different value " << r1.duration << " " << r2.duration;
+}
+int main() {
+	module1 s1(100);
+	module2 s2(100);
+
+	check(s1, s2);
+
+}
+
+
+----------------------------------------------------------------
+4) Define a class , write two member functions 
+	void disp1(){ //some code }
+	void disp2(){ // some code }
+
+	Try to call disp1   from    disp2.
+
+#include<iostream>
+using namespace std;
+
+class myclass {
+public:
+	void disp1() {
+		cout << "inside disp1" << endl;
+	}
+	void disp2() {
+		disp1();
+		cout << "inside disp2" << endl;
+
+		
+	}
+};
+
+int main() {
+	myclass s1;
+	s1.disp2();
+}
+----------------------------------------------------------------
+5) Define a class with constructor and  member function
+
+	create object, call member function
+	now create a reference to that object, and using that reference try to call member function
+
+
+
+#include<iostream>
+using namespace std;
+
+class myclass {
+public:
+
+	myclass() {
+
+	}
+	void disp1() {
+		cout << "inside disp1" << endl;
+	}
+	
+};
+
+int main() {
+	myclass s1;
+	s1.disp1();
+
+	myclass &ref = s1;
+
+	ref.disp1();
+
+}

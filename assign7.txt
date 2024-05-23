@@ -1,0 +1,370 @@
+1)	Create a base class Weapon. Declare pure virtual function “void attack()” in it. 			
+Define following sub classes for this class.                                                 		A) Gun  b) Sword  c) Rifle		
+“Rifle” class will have one more function “Chambering ()”.               	create an array of pointer to Weapon having 3 elements.
+In this array , store  the instances of child classes.
+Traverse the array , find out where exactly “Rifle”  is stored using  RTTI (dynamic_cast) , and invoke “Chambering ()” function along with “attack()” function.
+-------------------------------------------------------------------------
+2)	Create a base class Animal. Declare pure virtual function “void makeSound()” in it. 			
+Define following sub classes for this class.                                                 		A) Dog  b) Cat  c) Tiger	
+“Tiger” class will have one more function “hunting()”.                                         	 create a global function “void perform() which accepts pointer of type Animal so that it can invoke “makeSound()” function polymorphically. Inside this function find out where exactly where “Tiger” is stored using  RTTI (dynamic_cast) , and invoke “hunting()” function along with “makeSound()” function.
+
+
+
+#include<iostream>
+using namespace std;
+
+class Animal {
+public :
+	virtual void makesound() = 0;
+
+};
+
+class Dog : public Animal{
+public:
+	void makesound() {
+		cout << "bark" << endl;
+	}
+};
+
+class Cat : public Animal {
+public :
+	void makesound() {
+		cout << "meaw" << endl;
+	}
+};
+
+
+class Tiger : public Animal {
+public:
+	void makesound() {
+		cout << "Roar" << endl;
+	}
+
+	void hunting() {
+		cout << "Kill prey" << endl;
+	}
+};
+
+void perform(Animal *ref) {
+
+
+	Tiger* ref2 = dynamic_cast<Tiger*>(ref);
+	if (ref2) {
+		ref2->hunting();
+	}
+	ref->makesound();
+}
+
+int main() {
+	perform(new Dog);
+	perform(new Tiger);
+	perform(new Cat);
+}
+
+
+
+-------------------------------------------------------------------------
+
+
+3)	Create a base class Cricket. Declare pure virtual function “void play()” in it. 			
+Define following sub classes for this class.                                                 		A) FiftyOver  b) Test  c) TwentyOver	
+“Test” class will have one more function “daywise_summary()”.                                         	                                         	create a global function “void doit() which accepts reference of type Cricket so that it can invoke “play()” function polymorphically. Inside this function find out where exactly where “Test” is stored using  RTTI (dynamic_cast) , and invoke “daywise_summary()” function along with “play()” function. [ handle bad_cast exception ]
+
+#include<iostream>
+using namespace std;
+
+class cricket {
+public :
+	virtual void play() = 0;
+
+};
+
+class fiftyover : public cricket{
+public:
+	void play() {
+		cout << "fiftyover" << endl;
+	}
+};
+
+class test : public cricket {
+public :
+	void play() {
+		cout << "test over" << endl;
+	}
+};
+
+
+class twentyover : public cricket {
+public:
+	void play() {
+		cout << "twentyover" << endl;
+	}
+
+	void daywise_summary() {
+		cout << "daywise_summary" << endl;
+	}
+};
+
+void doit(cricket &ref) {
+	ref.play();
+
+	try {
+		twentyover& ref2 = dynamic_cast<twentyover&>(ref);
+		ref2.daywise_summary();
+	}
+	catch (bad_cast& bc) {
+		cout << bc.what() << endl;
+	}
+
+}
+
+
+int main() {
+	
+	fiftyover s1;
+	test s2;
+	twentyover s3;
+	doit(s1);
+	doit(s2);
+	doit(s3);
+
+
+}
+/* o/p
+fiftyover
+Bad dynamic_cast!
+test over
+Bad dynamic_cast!
+twentyover
+daywise_summary
+*/
+
+-------------------------------------------------------------------------
+
+4)	Create a base class Cricket. Declare pure virtual function “void play()” in it. 			
+Define following sub classes for this class.                                                 		A) FiftyOver  b) Test  c) TwentyOver	
+“Test” class will have one more function “daywise_summary()”.  
+                                       	Create an array of pointer to “Cricket” class having 3 elements. Store child class objects into this array.
+Now using  using  RTTI , find out where is  “Test”,  and call “daywise_summary()”  along with “play()” function.
+
+
+
+
+
+#include<iostream>
+using namespace std;
+
+class cricket {
+public :
+	virtual void play() = 0;
+
+};
+
+class fiftyover : public cricket{
+public:
+	void play() {
+		cout << "fiftyover" << endl;
+	}
+};
+
+class test : public cricket {
+public :
+	void play() {
+		cout << "test over" << endl;
+	}
+};
+
+
+class twentyover : public cricket {
+public:
+	void play() {
+		cout << "twentyover" << endl;
+	}
+
+	void daywise_summary() {
+		cout << "daywise_summary" << endl;
+	}
+};
+
+
+
+int main() {
+
+		cricket *ptr[3];
+	ptr[0] = new fiftyover;
+	ptr[1] = new test;
+	ptr[2] = new twentyover;
+
+	for (int i = 0; i < 3; i++)
+	{
+		ptr[i]->play();
+
+		twentyover* ptr2 = dynamic_cast<twentyover*>(ptr[i]);
+		if (ptr2)
+		{
+			ptr2->daywise_summary();
+		}
+	}
+
+
+
+}
+
+
+-------------------------------------------------------------------------
+
+5)	Create a base class “StorageDevice”.Declare  pure virtual function             “void store()” in it.Define following sub classes for this class. 	
+A) HardDisk b) CD c) PenDrive.			
+define  “store()” in these classes.
+
+now write a global function "perform()" which will accept "StorageDevice class reference" as an argument. In this function using RTTI invoke  "store()" method of  only “PenDrive”. [ handle bad_cast exception ]
+
+From main function try to call “perform()” function by passing various child classes.
+
+
+
+
+#include<iostream>
+using namespace std;
+
+class StorageDevice {
+public :
+	virtual void store() = 0;
+
+};
+
+class Hardisk : public StorageDevice {
+public:
+	void store() {
+		cout << "magnetic storage" << endl;
+	}
+};
+
+class CD : public StorageDevice {
+public :
+	void store() {
+		cout << "optical storage" << endl;
+	}
+};
+
+
+class pendrive : public StorageDevice {
+public:
+	void store() {
+		cout << "solid state storage" << endl;
+	}
+};
+
+void perform(StorageDevice &ref) {
+
+	try {
+		pendrive& ref2 = dynamic_cast<pendrive&>(ref);
+		ref2.store();
+	}
+	catch (bad_cast& bc) {
+		cout << bc.what() << endl;
+	}
+
+}
+
+
+int main() {
+	
+	Hardisk s1;
+	CD s2;
+	pendrive s3;
+	perform(s1);
+	perform(s2);
+	perform(s3);
+
+
+}
+
+
+//Bad dynamic_cast!
+//Bad dynamic_cast!
+//solid state storage
+
+-------------------------------------------------------------------------
+
+6)	Create a base class “Subject”.Declare pure virtual function “void maxmarks()” in it.  Define following sub classes for this class. A) Maths b) History c) English.	Define “maxmarks” in these classes. In main function, create array of pointer to Subject,  which will contain objects of these three sub classes. Using RTTI, find out where is “History” and call its maxmarks() method.
+
+
+
+#include<iostream>
+using namespace std;
+
+class Subject {
+public :
+	virtual void maxmarks() = 0;
+
+};
+
+class History : public Subject {
+public:
+	void maxmarks() {
+		cout << "History 80" << endl;
+	}
+};
+
+class Maths : public Subject {
+public :
+	void maxmarks() {
+		cout << "Maths 75" << endl;
+	}
+};
+
+
+class English : public Subject {
+public:
+	void maxmarks() {
+		cout << "eng 70" << endl;
+	}
+};
+
+
+
+
+int main() {
+	
+	Subject* s1[3] = { new Maths,new History, new English };
+
+
+	for (int i = 0; i < 3; i++) {
+		History* ptr = dynamic_cast<History*>(s1[i]);
+		if (ptr) {
+			ptr->maxmarks();
+
+		}
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

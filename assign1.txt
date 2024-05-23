@@ -1,0 +1,363 @@
+4,
+=========
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int num = 20;
+    int * ptr = &num;
+    ptr+=2;
+    cout<<*ptr;
+
+    return 0;
+}
+
+
+-------------------------
+#include <iostream>
+using namespace std;
+
+int main()
+{
+int n1;
+
+int n2;
+
+cin>>n1>>n2;
+
+int *p1 = &n1;
+int *p2 = &n2;
+
+cout<<*p1+*p2;
+cout<<*p1-*p2;
+cout<<*p1/ *p2;
+cout<<*p1* *p2;
+}
+-------------------
+int main()
+{
+    int num1 = 2;
+int num2 = 3;
+    cout<<num1;
+cout<<num2<<endl;
+
+num1 = num1+num2;
+num2 = num1-num2;
+num1 = num1 -num2;
+cout<<num1;
+cout<<num2;
+}
+
+-----------------------------
+4)
+
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+int main() {
+    // Write C++ code here
+   int a = 10;
+   int b = 10;
+
+   void add(int*,int*);         
+   add(&a,&b);
+//-----------------------------
+   void disp(int&,int&);
+   disp(a,b);
+ //---------------------------
+   void disp_value(int,int);
+   disp_value(a,b);
+
+    return 0;
+}
+
+void add (int* a,int* b){ 	 //call by address
+    cout<<(*a+*b)<<endl;
+}
+
+void disp (int &a,int &b){ 	//call by reference
+    cout<<a<<"\t"<<b<<endl;
+}
+
+void disp_value (int a,int b){  //call by value
+   cout<<a<<"\t"<<b;
+}
+
+ 
+------------------------------
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	void disp(int, int*);
+	int arr[] = {1,2,3,4,5};
+	int val;
+	cout << "Enter a number you wanna check : ";
+	cin >> val;
+	disp(val,arr);
+
+
+
+}
+
+void disp(int k, int*ptr)
+{
+	bool flag=false;
+
+	for (int i = 0; i < 5; i++) {
+		if (ptr[i] == k) {
+			flag = true;
+			break;
+		}
+	}
+
+		if (flag==true)
+			cout << "your num exist in array" << endl;
+		else 
+			cout << "does not exist in array";
+		
+	
+	
+}
+--------------------------------
+
+6) 
+	        int num = 100;
+		int* ptr = &num;
+		++(*ptr);
+
+					//o/p : 101
+
+		cout << num << endl;
+		(*ptr)++;
+					//o/p : 102
+
+
+		cout << num << endl;
+		*(ptr++);		//o/p : 102
+
+		cout << num << endl;
+	
+------------------------------------------------
+7)
+	#include <iostream>
+using namespace std;
+
+int main()
+{
+
+		void disp1(int k);
+	void(*func1)(int) = &disp1;
+
+	int disp2(char*);
+	int (*func2)(char*) = &disp2;
+
+	void disp3();
+	void (*func3)() = &disp3;
+
+	double* disp4(char ch);
+	double* (*func4)(char) = &disp4;
+
+
+
+}
+
+---------------------------------------------------
+8)
+
+#include<iostream>
+using namespace std;
+int main()
+{
+	int num;
+	cout << "how many num would you like to store" << endl;
+	cin >> num;
+	int *arr = new int[num];
+	int temp = num;
+	for (int i = 0; i < num; i++) {
+		arr[i] = temp-- ;
+	}
+
+	for (int i = 0; i < num; i++) {
+		cout<<arr[i]<<"\t";
+	}
+
+	delete[] arr;
+}
+----------------------------------------------------------
+9)
+
+Size of the whole array myArray in bytes:
+text
+
+sizeof(myArray) = 5 elements * sizeof(int) bytes per int element
+We assume sizeof(int) is 4 bytes for this example. sizeof(myArray) = 5 * 4 = 20 bytes
+
+Size of a single element in the array myArray[0]: sizeof(myArray[0]) = sizeof(int) = 4 bytes
+
+Calculate the length of the array using the formula: length = sizeof(myArray) / sizeof(myArray[0]) length = 20 bytes / 4 bytes = 5
+
+
+
+#include<iostream>
+using namespace std;
+int main()
+{
+	void disp(int*,int);
+	int arr[] = { 10,20,30,40,50 };
+	int length = sizeof(arr) / sizeof(arr[0]);
+	disp(arr,length);
+
+}
+
+void disp(int* ptr,int len) {
+	cout << "YOUR ARRAY :";
+	for (int i = 0; i < len;i++) {
+		cout << ptr[i] << "\t";
+	}
+}
+
+
+-----------------------------------------------------------------
+10)
+
+
+#include<iostream>
+using namespace std;
+int main()
+{
+	void disp(char*, int);
+	char arr[20] = "Computer";
+	//int length = sizeof(arr) / sizeof(arr[0]);
+	disp(arr, length);
+
+}
+
+void disp(char* ptr, int len) {
+	cout << "YOUR ARRAY :";
+
+	ptr += 3;
+	for (int i = 0; i < len; i++) {
+		cout << *(ptr + i);
+	}
+}
+
+///////////
+#include<iostream>
+using namespace std;
+
+int main(){
+    char name[20]="Computer";
+    char *ptr=name;
+    ptr+=3;
+    for(int i=0;name[i]!='\0';i++){
+        cout<<*(ptr+i);
+    }
+}
+----------------------------------------------------------------
+11)
+#include<iostream>
+using namespace std;
+int main()
+{
+  
+	char name[15];
+	cout << "enter your name : ";
+	cin >> name;
+	char *ptr=name;
+	
+
+	for (int i = 0; i < strlen(name); i++) {
+		if(i==0 || i==strlen(name)-1)
+		ptr[i]++;
+	}
+	cout << name;
+	
+}
+-----------------------------------------------------------------
+
+12)
+#include<iostream>
+using namespace std;
+int main()
+{
+  
+	char name[15];
+	cout << "enter your name : ";
+	cin >> name;
+	char* ptr;
+	ptr = name;
+
+	int len = 0;
+
+	while (*ptr != '\0') {
+		ptr++;
+		len++;
+	}
+	cout << len;
+
+	
+}
+----------------------------------------------------------------------
+---------------------------------------------------------------------
+1) store value 20 inside "num" variable.
+create a pointer to this variable. print the value of "num" using pointer.
+increment the pointer by 2 and show with the diagram what happens.
+
+2) accept two numbers from the user and with the help of pointers perform following arithmetic operations:
+	+   -    *   /
+	[ diagram compulsory ]
+
+3) accept two numbers and swap them without using third variable.
+
+4) write "Call By Address" program [ using pointer ]
+
+5) Given
+	void disp(int,int*);
+write a program to define above function and invoke it.
+
+6) givenA
+	        int num = 100;
+		int* ptr = &num;
+		++(*ptr);                
+		cout << num << endl;
+		(*ptr)++;
+		cout << num << endl;
+		*(ptr++);
+		cout << num << endl;
+	
+show with the help of diagram what happens in the above code
+
+
+7) Given following functions:
+	void disp1(int k);
+	int disp2(char *);
+	void disp3();
+	double* disp4(char ch);
+
+	declare "pointer to functions" for the above functions.
+
+
+8) ask user how many numbers he would like to store and using DMA allocate the memory for the same [ diagram compulsory ]
+
+ 
+	
+
+9) given
+	int arr[]={10,20,30,40,50}
+
+write a function which can accept above array inside the pointer and using for loop traverse it.
+
+10) given
+	char name[20]="Computer";
+	
+	now declare a pointer to the above string and increment the pointer in such a way that when you display the string using pointer, it should display "puter"
+
+11) accept a name ,display it. Now change first and the last characters of the name with their next characters and again print it.
+e.g
+	name is "sachin"
+		output should be "tachio"
+
+12) accept a name and print its length without using in built (strlen) function.

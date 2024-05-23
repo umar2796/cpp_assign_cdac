@@ -1,0 +1,175 @@
+1) class Hour
+{
+	private:
+		int hr;
+	public:
+		parameterized constructor
+		disp method
+}
+class Minute
+{
+	private:
+		int mnt;
+	public:
+		parameterized constructor
+		disp method
+}
+
+write a program to convert minutes to hours.
+(Use operator= for conversion.)
+
+----------------------------------
+#include<iostream>
+using namespace std;
+
+class Minute;
+class Hour
+{
+private:
+	int hr;
+public:
+	Hour(int hr) {
+		this->hr = hr;
+	}
+	void disp() {
+		cout << "Time in hour converted from minutes :"<<hr << endl;
+	}
+
+	void operator=(Minute &ref);			//USING hr.OPERATOR=(min)
+};
+class Minute
+{
+private:
+	int min;
+public:
+	Minute(int min) {
+		this->min = min;
+	}
+
+	int getmin() {
+		return min;
+	}
+
+	void disp() {
+		cout << "Time in minutes :"<<min << endl;
+	}
+	/*
+	operator Hour() {				//USING CONVERION OPERATOR
+		return (min / 60);
+	}
+	*/
+};
+
+
+void Hour::operator=(Minute& ref) {
+	hr = ref.getmin() / 60;
+}
+
+
+int main() {
+	Hour h(1);
+	Minute m(120);
+	h = m;
+	m.disp();
+	h.disp();
+	
+}
+
+--------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+2)write a number class with
+int num;
+void disp(){}
+
+u should be able to do following
+
+number n1(20);
+int k=-n1;
+
+n1+=5;
+n1.disp()
+
+number n2(35);
+if(n1!=n2)
+{
+	some message
+}
+
+
+
+number n3(12);
+
+if(n3 < n1)
+{
+	some message
+}
+
+number n4;
+
+n4=n2*n3;
+
+
+
+
+-----------------------------------------------------------------------------------
+#include<iostream>
+using namespace std;
+
+class Minute;
+class number
+{
+private:
+	int num;
+public:
+	number() {
+
+	}
+	number(int num) {
+		this->num = num;
+	}
+	void disp() {
+		cout <<num << endl;
+	}
+
+	operator int() {
+		return num;
+	}
+
+	number& operator+=(int k)
+	{
+		this->num=this->num + 5;
+		return *this;
+	}
+};
+
+
+int main() {
+	number n1(20);
+	int k = -n1;
+
+	cout << k << endl;
+	//--------------------------------
+	n1 += 5;       //n1.operator+=(5)
+	n1.disp();
+	//--------------------------------
+	number n3(12);
+	
+	number n4;
+	
+	
+
+
+
+}
+
+
+
+
+

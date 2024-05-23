@@ -1,0 +1,98 @@
+In C++, there are 4 types of linkage: 
+internal linkage, 
+external linkage,
+typesafe linkage,
+alternate linkage
+
+#####Internal Linkage (Internal Static Linkage):
+
+Definition: Internal linkage restricts the visibility of identifiers to the translation unit (source file) where they are defined.
+How it Works: When a variable or function is declared with the static keyword at the global scope, it has internal linkage. This means that the identifier is only accessible within the same source file where it is declared.
+Example:
+cpp
+
+static int internalVar; // Internal linkage variable
+static void internalFunction() {} // Internal linkage function
+
+----------------------------------------------------------------------
+
+
+####External Linkage (External Static Linkage):
+
+Definition: External linkage enables identifiers to be accessed from other translation units.
+How it Works: Functions and variables declared at the global scope without the static keyword have external linkage by default. This allows them to be used in other source files through declarations.
+Example: In header file (declaration):
+cpp
+
+extern int globalVar; // External linkage variable declaration
+void externalFunction(); // External linkage function declaration
+
+
+What happens if u r writing a program in C++ and u want to use a C library ?
+If u make the C function declaration,
+
+float fun1(int,char);
+----------------------------------------------------------------------
+####typesafe Linkage
+
+here what happens 
+When client prog makes mistake by misdeclaring a function and is called without declaring it first 
+
+eg 
+in C library
+when you define disp(char *ptr){}
+
+and create C program to access it in main function
+
+client here mistakenly writes 
+void disp(double)
+and calls same
+
+disp(23.2)
+
+
+now it ll compile and link successfully 
+as linker checks only function name of declared function and defined function in library which is correct
+
+but here during runtime you ll get runtime error
+
+
+------------------therefore this is overcome by name mangaling
+in cpp 
+
+same code if written in cpp
+here all functions declaration and definition 's name ll be replaced by 
+its name and datatype of its argument.
+
+so here
+
+library code
+when you define disp_char(char *ptr){}
+
+
+main function program
+
+void disp_double(double);
+and calls same
+
+disp_double(23.2);
+
+this ll be checked by linker itself as it ll find function declaration 
+does not have definition therefore linker error and runtime error is prevented.
+
+----------------------------------------------------------------------
+
+
+####Alternate Linkage
+
+the C++ compiler will decorate this name to something like "fun1_int_char" to support function overloading ( and type-safe linkage). However, the C compiler that compiled ur C library has most definitely not decorated the name, so its internal name will be "fun1". Thus, the linker will not be able to resolve ur C++ calls to "fun1()".
+
+The escape mechanism provided in C++ is the "alternate linkage specification " , which was produced in the language by overloading the "extern" keyword. The "extern" is followed by a string that specifies the linkages u want for the declaration, followed by the declaration:
+
+extern "C" float fun1(int,char);
+
+This tells the compiler to give C linkage to fun1() so that the compiler doesn't decorate the name.
+
+
+
+ 
